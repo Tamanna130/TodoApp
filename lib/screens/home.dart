@@ -3,8 +3,14 @@ import 'package:todo_app/model/todo.dart';
 import 'package:todo_app/widgets/todo_item.dart';
 import '../widgets/todo_item.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final todosList = Todo.todoList();
 
   Widget build(BuildContext context) {
@@ -32,6 +38,8 @@ class Home extends StatelessWidget {
                         for (Todo todo in todosList)
                           TodoItem(
                             todo: todo,
+                            onTodoChanged: _handlerTodoChange,
+                            onDeleteItem: () {},
                           ),
                       ],
                     ),
@@ -83,6 +91,12 @@ class Home extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _handlerTodoChange(Todo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
   }
 
   Widget searchBox() {
