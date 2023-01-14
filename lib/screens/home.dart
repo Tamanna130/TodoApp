@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final todosList = Todo.todoList();
-
+  final _todoController = TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 251, 245, 227),
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
                           TodoItem(
                             todo: todo,
                             onTodoChanged: _handlerTodoChange,
-                            onDeleteItem: () {},
+                            onDeleteItem: _deleteTodoItem,
                           ),
                       ],
                     ),
@@ -96,6 +96,12 @@ class _HomeState extends State<Home> {
   void _handlerTodoChange(Todo todo) {
     setState(() {
       todo.isDone = !todo.isDone;
+    });
+  }
+
+  void _deleteTodoItem(String id) {
+    setState(() {
+      todosList.removeWhere((item) => item.id == id);
     });
   }
 
