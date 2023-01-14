@@ -65,6 +65,7 @@ class _HomeState extends State<Home> {
                     ],
                     borderRadius: BorderRadius.circular(10)),
                 child: TextField(
+                  controller: _todoController,
                   decoration: InputDecoration(
                       hintText: 'Add a new todo item',
                       border: InputBorder.none),
@@ -79,7 +80,9 @@ class _HomeState extends State<Home> {
                       fontSize: 40,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _addTodoItem(_todoController.text);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromARGB(255, 38, 152, 246),
                       minimumSize: Size(60, 60),
@@ -103,6 +106,16 @@ class _HomeState extends State<Home> {
     setState(() {
       todosList.removeWhere((item) => item.id == id);
     });
+  }
+
+  void _addTodoItem(String toDo) {
+    setState(() {
+      todosList.add(Todo(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        todoText: toDo,
+      ));
+    });
+    _todoController.clear();
   }
 
   Widget searchBox() {
